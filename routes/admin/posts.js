@@ -7,8 +7,15 @@ router.all('/*', (req, res, next)=>{
 });
 
 router.get('/', (req, res)=>{
+    res.send('It Works');
+});
 
-    res.render('admin/index');
+router.get('/create', (req, res)=>{
+    res.render('admin/posts/create');
+});
+
+router.post('/create', (req, res)=>{
+    res.render('admin/posts/create');
 });
 
 
