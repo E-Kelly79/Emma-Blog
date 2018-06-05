@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const {isEmpty, uploadDir} = require('../../helpers/upload-helper');
+const fs = require('fs');
+const path = require('path');
 
 router.all('/*', (req, res, next)=>{
     req.app.locals.layout = 'admin';
@@ -24,33 +27,35 @@ router.get('/create', (req, res)=>{
 
 //Save data to database
 router.post('/create', (req, res)=>{
-    let file = req.files.file;
-    let filename = file.name;
+    let filename = 'ask-luddites-british-museum-AN00126245_001_l-E.jpeg';
+    if(!isEmpty(req.files)){
+        let file = req.files.file;
+        filename = Date.now() + '-' + file.name;
+        file.mv('./public/uploads/' + filename, (err)=>{
+            if(err) throw err;
+        });
+    }
 
-    file.mv('./public/uploads/' + filename, (err)=>{
-        if(err) throw err;
+    let allowComments = true;
+    if(req.body.allowComments){
+        allowComments = true;
+    }else{
+        allowComments = false;
+    }
+
+    //Get the data from the form to be saved
+    const newPost = new Post({
+        title: req.body.title,
+        status: req.body.status,
+        allowComments: allowComments,
+        body: req.body.body,
+        file: filename
     });
-    console.log(filename);
-    // let allowComments = true;
-    //
-    // if(req.body.allowComments){
-    //     allowComments = true;
-    // }else{
-    //     allowComments = false;
-    // }
-    //
-    // //Get the data to be saved
-    // const newPost = new Post({
-    //     title: req.body.title,
-    //     status: req.body.status,
-    //     allowComments: allowComments,
-    //     body: req.body.body
-    // });
-    //
-    // //Save the data to database
-    // newPost.save().then(savePost=>{
-    //     res.redirect('/admin/posts')
-    // }).catch(err=> consle.log(err));
+
+    //Save the data to database
+    newPost.save().then(savePost=>{
+        res.redirect('/admin/posts')
+    }).catch(err=> consle.log(err));
 
 
 });
@@ -84,8 +89,12 @@ router.put('/edit/:id', (req, res)=>{
 
 //Delete Posts route
 router.delete('/:id', (req, res)=>{
-    Post.remove({_id: req.params.id}).then(result=>{
-        res.redirect('/admin/posts');
+    Post.findOne({_id: req.params.id}).then(post=>{
+        fs.unlink(uploadDir + post.file, (err)=>{
+            post.remove();
+            res.redirect('/admin/posts');
+        });
+
     });
 });
 
