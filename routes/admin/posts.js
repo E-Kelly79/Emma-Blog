@@ -5,6 +5,7 @@ const {isEmpty, uploadDir} = require('../../helpers/upload-helper');
 const fs = require('fs');
 const path = require('path');
 
+//Make all routes start with admin
 router.all('/*', (req, res, next)=>{
     req.app.locals.layout = 'admin';
     next();
@@ -27,11 +28,11 @@ router.get('/create', (req, res)=>{
 
 //Save data to database
 router.post('/create', (req, res)=>{
+
+    //check forms for errors and validate them
     let errors = [];
     if(!req.body.title){
         errors.push({message: 'Please add a title'});
-    }else if(!req.files.file){
-        errors.push({message: 'Please add a file or picture'});
     }else if(!req.body.body){
         errors.push({message: 'Please add some description to that post'});
     }
@@ -40,9 +41,12 @@ router.post('/create', (req, res)=>{
         res.render('admin/posts/create',{
             errors: errors
         });
+        //if no errors are found then save the post to the database
     }else {
-
         let filename = 'ask-luddites-british-museum-AN00126245_001_l-E.jpeg';
+        /*check to see if a file has been upload
+         if it has then mv file to uploads folder*/
+
         if (!isEmpty(req.files)) {
             let file = req.files.file;
             filename = Date.now() + '-' + file.name;
@@ -67,15 +71,19 @@ router.post('/create', (req, res)=>{
             file: filename
         });
 
-        //Save the data to database
+        //Save the data to database and redirect to all posts
         newPost.save().then(savePost => {
+            req.flash('success_message', `Post with the title ${savePost.title} was created successfully`);
+
             res.redirect('/admin/posts')
         }).catch(err => consle.log(err));
 
     }
 });
 
-//Edit Route
+
+
+//Edit Route find the id of the post to update it
 router.get('/edit/:id', (req, res)=>{
     Post.findOne({_id: req.params.id}).then(post=>{
         res.render('admin/posts/edit', {post: post});
@@ -84,19 +92,31 @@ router.get('/edit/:id', (req, res)=>{
 
 //Put Request
 router.put('/edit/:id', (req, res)=>{
-    //find id and then update data with new information coming form the edit text fields
+    /*find id and then update data
+     with new information coming form the edit text fields*/
     Post.findOne({_id: req.params.id}).then(post=>{
         if(req.body.allowComments){
             allowComments = true;
         }else{
             allowComments = false;
         }
+
         post.title = req.body.title;
         post.status = req.body.status;
         post.allowComments = allowComments;
         post.body = req.body.body;
 
+        if (!isEmpty(req.files)) {
+            let file = req.files.file;
+            filename = Date.now() + '-' + file.name;
+            post.file = filename;
+            file.mv('./public/uploads/' + filename, (err) => {
+                if (err) throw err;
+            });
+        }
+
         post.save().then(updatedPost=>{
+            req.flash('success_message', `Post with the title ${updatedPost.title} was edited successfully`);
             res.redirect('/admin/posts');
         });
     });
@@ -107,6 +127,7 @@ router.delete('/:id', (req, res)=>{
     Post.findOne({_id: req.params.id}).then(post=>{
         fs.unlink(uploadDir + post.file, (err)=>{
             post.remove();
+            req.flash('success_message', `Post was deleted successfully`);
             res.redirect('/admin/posts');
         });
 
