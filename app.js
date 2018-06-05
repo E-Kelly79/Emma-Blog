@@ -4,6 +4,8 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const fileUpload = require('express-fileupload');
 
 
 mongoose.connect('mongodb://localhost:27017/blog').then(db=>{
@@ -13,15 +15,23 @@ mongoose.connect('mongodb://localhost:27017/blog').then(db=>{
 
 
 //Config server to use handlebars
+const {select} =require('./helpers/handlebars-helpers');
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', exphbs({
-    defaultLayout: 'home'
+    defaultLayout: 'home',
+    helpers: {select: select}
 }));
 app.set('view engine', 'handlebars');
+
+//Upload Middleware
+app.use(fileUpload());
 
 //Body Parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+//Method Override
+app.use(methodOverride('_method'));
 
 //Load Routes
 const home = require('./routes/home/index');

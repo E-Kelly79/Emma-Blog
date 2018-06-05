@@ -1,0 +1,36 @@
+<h1>Edit Posts</h1>
+
+<form action="/admin/posts/edit/{{post.id}}?_method=PUT" method="post"  >
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{post.title}}">
+    </div>
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <select  class="form-control" id="status" name="status">
+    {{#select post.status}}
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="draft">Draft</option>
+    {{/select}}
+        </select>
+    </div>
+
+
+
+    <div class="form-check">
+        <label for="allowComments">
+            <input type="checkbox" class="form-check-input" id="allowComments" name="allowComments">
+            Allow Comments
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Description</label>
+        <textarea cols="30" rows="10" class="form-control" id="body" name="body">{{post.body}}</textarea>
+    </div>
+
+    <button type="submit">Submit</button>
+
+</form>
