@@ -10,6 +10,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 
+
 mongoose.connect('mongodb://localhost:27017/blog').then(db=>{
     console.log('Mongo Connected')
 }).catch(err=> console.log(err));
@@ -19,13 +20,16 @@ mongoose.connect('mongodb://localhost:27017/blog').then(db=>{
 
 
 //Config server to use handlebars
-const {select} =require('./helpers/handlebars-helpers');
+const {select, formatDate} =require('./helpers/handlebars-helpers');
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', exphbs({
     defaultLayout: 'home',
-    helpers: {select: select}
+    helpers: {select: select,
+              formatDate: formatDate
+    }
 }));
 app.set('view engine', 'handlebars');
+
 
 //Upload Middleware
 app.use(fileUpload());
@@ -43,6 +47,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 app.use(flash());
 //Local Varaibles using middleware
 app.use((req, res, next)=>{
