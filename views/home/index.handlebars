@@ -10,15 +10,15 @@
                     <div class="col-md-12">
                         <!-- Big post section -->
                         <h2 class="text-center mb-3" >Newest Post</h2>
-                        <div class="post-item big-post">
-                            <a href="/post/{{id}}"><h2>{{title}}</h2></a>
-                            <img src="/uploads/{{file}}" class="img-fluid" alt="post-img">
+                        <div class="post-item big-post pt-0">
+                            <img src="/uploads/{{file}}"  alt="post-img">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">{{formatDate date 'Do MMM YYYY'}}</li>
                                 <li class="breadcrumb-item"> By <a href="#" class="admin">Admin</a></li>
                                 <li class="breadcrumb-item">In <a href="#" class="fashion">Fashion </a></li>
                                 <li class="breadcrumb-item">(23) Comments</li>
                             </ol>
+                            <a href="/post/{{id}}"><h2>{{title}}</h2></a>
                             <h5>{{body}}</h5>
                             <a href="/post/{{id}}" class="continue-read">Continue Reading</a>
                             <!--<div class="share align-middle">-->
@@ -81,6 +81,10 @@
                 <div class="fb-sec">
                     <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Femonmyplate%2F&tabs&width=330&height=214&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId" width="100%" height="214" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
                 </div>
+
+                <!-- InstaWidget -->
+                <a href="https://instawidget.net/v/user/emonmyplate" id="link-f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122">@emonmyplate</a>
+                <script src="https://instawidget.net/js/instawidget.js?u=f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122&width=300px"></script>
             </aside>
         </div>
     </section>
