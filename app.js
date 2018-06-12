@@ -8,10 +8,11 @@ const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const flash = require('connect-flash');
+const {mongoDBUrl} = require('./config/database');
 
 
 
-mongoose.connect('mongodb://localhost:27017/blog').then(db=>{
+mongoose.connect(mongoDBUrl).then(db=>{
     console.log('Mongo Connected')
 }).catch(err=> console.log(err));
 
@@ -52,6 +53,7 @@ app.use(flash());
 //Local Varaibles using middleware
 app.use((req, res, next)=>{
     res.locals.success_message = req.flash('success_message');
+    res.locals.error_message = req.flash('error_message');
     next();
 })
 
@@ -59,11 +61,13 @@ app.use((req, res, next)=>{
 const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
 const posts = require('./routes/admin/posts');
+const cats = require('./routes/admin/categories');
 
 //Use Routes
 app.use('/', home);
 app.use('/admin', admin);
 app.use('/admin/posts', posts);
+app.use('/admin/categories', cats);
 
 
 //Start the server

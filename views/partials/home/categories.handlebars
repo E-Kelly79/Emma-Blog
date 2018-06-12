@@ -1,11 +1,8 @@
 <div class="category-sec">
     <h3>Categories</h3>
     <ul>
-        <li><a href="#" class="active">Recipes</a></li>
-        <li><a href="#">Restaurants</a></li>
-        <li><a href="#">Food Events</a></li>
-        <li><a href="#">Classics</a></li>
-        <li><a href="#">Meat Dishes</a></li>
-        <li><a href="#">Salads</a></li>
+        {{#each categories}}
+            <li><a href="#" class="active">{{name}}</a></li>
+        {{/each}}
     </ul>
 </div>
