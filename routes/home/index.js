@@ -92,20 +92,36 @@ router.get('/login', (req, res)=>{
 
 //Login
 passport.use(new LocalStrategy({
-    usernameField: 'email'
-},(email, password, done)=>{
-    console.log(password);
-
+    usernameField: 'email'},
+    (email, password, done)=>{
+    //find the user if user is found then log them in else send an error message
     User.findOne({email: email}).then(user=>{
         if(!user){
             return done(null, false, {message:'No user found'});
         }
 
-        if()
+        //compare the password filed with the password in the database
+        bcrypt.compare(password, user.password, (err, matched)=>{
+            if(err) return err;
+
+            if(matched){
+                return done(null, user);
+            }else{
+                return done(null, false, {message: 'Incorrect Password'});
+            }
+        });
     });
-
-
 }));
+
+passport.serializeUser(function(user, done){
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done){
+   User.findById(id, function(err, user){
+       done(err, user);
+   }) ;
+});
 
 
 router.post('/login', (req, res, next)=>{
@@ -115,6 +131,11 @@ router.post('/login', (req, res, next)=>{
         failureFlash: true
     })(req, res, next);
 
+});
+
+router.get('/logout', (req, res)=>{
+   req.logout();
+   res.redirect('/login');
 });
 
 router.get('/post/:id', (req, res)=>{
