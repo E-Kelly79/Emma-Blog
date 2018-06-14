@@ -1,6 +1,8 @@
 //Setup mongoose
 const mongoose = require('mongoose');
+const UrlSlugs = require('mongoose-url-slugs');
 const Schema = mongoose.Schema;
+
 
 //Post Table
 const PostSchema = new Schema({
@@ -43,10 +45,18 @@ const PostSchema = new Schema({
         ref: 'Categories'
     },
 
+    slug:{
+        type: String
+    },
+
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comments'
     }]
 },{usePushEach: true});
 
+PostSchema.plugin(UrlSlugs('title', {field: 'slug'}));
 module.exports = mongoose.model('Posts', PostSchema);
+
+
+

@@ -138,12 +138,11 @@ router.get('/logout', (req, res)=>{
    res.redirect('/login');
 });
 
-router.get('/post/:id', (req, res)=>{
-    Post.findOne({_id: req.params.id})
+router.get('/post/:slug', (req, res)=>{
+    Post.findOne({slug: req.params.slug})
         .populate({path: 'comments', populate: {path: 'user', model: 'Users'}})
         .populate('user')
         .then(post=>{
-            console.log(post);
             Category.find({}).then(categories=>{
                 res.render('home/post', {post: post, categories: categories});
             });
