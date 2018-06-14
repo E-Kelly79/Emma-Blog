@@ -4,29 +4,40 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="post-item big-post about-profile">
-                        <h1>{{post.title}}</h1>
+                        <h1>{{post.title}}<br>
+                            <small style="font-size: .8rem">{{formatDate date 'Do MMM YYYY'}}</small>
+                        </h1>
                         <img src="/uploads/{{post.file}}" alt="post-img">
-
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
-
-                        <blockquote>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</blockquote>
-
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
-
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
-
-                        <blockquote>
-
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.
-                        </blockquote>
-
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it imen book.</p>
+                        <p>{{post.body}}</p>
                     </div>
                 </div>
+                <div class="col-md-12 post-item big-post">
+                    <div class="page-header">
+                        <h1>Comments </h1>
+                    </div>
+                    {{#each post.comments}}
+                    <div class="comments-list" >
+                        <div class="media">
+                            <a class="media-left" href="#">
+                                <img src="http://lorempixel.com/40/40/people/1/">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading user_name">{{user.name}}</h4>
+                                {{body}}
+                                <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
             </div>
-
+            <form action="/admin/comments" role="form" method="post">
+                <div class="form-group">
+                    <textarea name="comment" class="form-control" rows="3" cols="90"></textarea>
+                    <input type="hidden" name="id" value="{{post.id}}">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+            </form>
         </div>
 
 
@@ -83,10 +94,14 @@
                     </li>
                 </ul>
             </div>
+            <!-- facebook like section -->
             <div class="fb-sec">
-                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftemplate.net%2F&tabs&width=330&height=214&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId" width="100%" height="214" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Femonmyplate%2F&tabs&width=330&height=214&small_header=false&adapt_container_width=false&hide_cover=false&show_facepile=true&appId" width="100%" height="214" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
             </div>
 
+            <!-- InstaWidget -->
+            <a href="https://instawidget.net/v/user/emonmyplate" id="link-f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122">@emonmyplate</a>
+            <script src="https://instawidget.net/js/instawidget.js?u=f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122&width=300px"></script>
         </aside>
     </div>
 </section>

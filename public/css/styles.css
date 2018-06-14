@@ -1356,3 +1356,11 @@ body.my-login-page {
         padding: 15px;
     }
 }
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}

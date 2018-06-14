@@ -70,12 +70,14 @@ const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
 const posts = require('./routes/admin/posts');
 const cats = require('./routes/admin/categories');
+const comments = require('./routes/admin/comments');
 
 //Use Routes
 app.use('/', home);
 app.use('/admin', admin);
 app.use('/admin/posts', posts);
 app.use('/admin/categories', cats);
+app.use('/admin/comments', comments);
 
 
 //Start the server

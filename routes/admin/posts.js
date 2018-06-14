@@ -11,7 +11,7 @@ const {userAuth} = require('../../helpers/auth');
 
 
 //Make all routes start with admin
-router.all('/*', userAuth, (req, res, next)=>{
+router.all('/*',  (req, res, next)=>{
     req.app.locals.layout = 'admin';
     next();
 });
@@ -136,11 +136,18 @@ router.put('/edit/:id', (req, res)=>{
 
 //Delete Posts
 router.delete('/:id', (req, res)=>{
-    Post.findOne({_id: req.params.id}).then(post=>{
+    Post.findOne({_id: req.params.id}).populate('comments').then(post=>{
         fs.unlink(uploadDir + post.file, (err)=>{
-            post.remove();
-            req.flash('success_message', `Post was deleted successfully`);
-            res.redirect('/admin/posts');
+            if(!post.comments.length < 1){
+                post.comments.forEach(comment=>{
+                    comment.remove();
+                });
+            }
+            post.remove().then(postRemoved=>{
+                req.flash('success_message', `Post was deleted successfully`);
+                res.redirect('/admin/posts');
+            });
+
         });
 
     });

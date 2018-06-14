@@ -42,6 +42,6 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Comments'
     }]
-});
+},{usePushEach: true});
 
 module.exports = mongoose.model('Posts', PostSchema);
