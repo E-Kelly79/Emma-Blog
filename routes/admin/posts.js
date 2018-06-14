@@ -16,6 +16,8 @@ router.all('/*',  (req, res, next)=>{
     next();
 });
 
+
+
 //Read data in database
 router.get('/', (req, res)=>{
     Post.find({}).populate('category').then(posts=>{
@@ -72,6 +74,7 @@ router.post('/create', (req, res)=>{
 
         //Get the data from the form to be saved
         const newPost = new Post({
+            user: req.user.id,
             title: req.body.title,
             status: req.body.status,
             allowComments: allowComments,
@@ -112,6 +115,7 @@ router.put('/edit/:id', (req, res)=>{
             allowComments = false;
         }
 
+        post.user = req.user.id;
         post.title = req.body.title;
         post.status = req.body.status;
         post.allowComments = allowComments;

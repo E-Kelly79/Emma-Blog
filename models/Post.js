@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 
 //Post Table
 const PostSchema = new Schema({
+    user:{
+        type: Schema.Types.ObjectId,
+        ref: 'Users'
+    },
+
     title:{
         type: String,
         required: true

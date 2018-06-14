@@ -2,14 +2,14 @@
 <table class="table table-bordered">
     <caption>List of Blog Posts</caption>
     <thead>
-        <tr class="table-warning">
-            <th>Id</th>
-            <th>Image</th>
+        <tr>
             <th>Title</th>
+            <th>Image</th>
             <th>Category</th>
             <th>Status</th>
             <th>Comments</th>
             <th>Date Created</th>
+            <th>View Post</th>
             <th>Edit Post</th>
             <th>Delete Post</th>
             <!--<th>Body</th>-->
@@ -17,17 +17,17 @@
     </thead>
     <tbody>
     {{#each posts}}
-        <tr class="table-success">
-            <td>{{id}}</td>
-            <td><img src="/uploads/{{file}}" height="100px" class="media img-responsive" alt=""></td>
+        <tr>
             <td>{{title}}</td>
+            <td><img src="/uploads/{{file}}" height="100px" class="media img-responsive" alt=""></td>
             <td>{{category.name}}</td>
             <td>{{status}}</td>
             <td>{{allowComments}}</td>
             <td>{{formatDate date 'MMM/Do/YYYY'}}</td>
-            <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Edit</a></td>
+            <td><a href="/post/{{id}}" class="btn btn-success"><i class="fa fa-eye"></i> View Post</a></td>
+            <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a></td>
             <td><form action="/admin/posts/{{id}}?_method=DELETE" method="post">
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
             </form>
 
         </tr>
