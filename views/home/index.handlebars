@@ -4,7 +4,6 @@
         <div class="container">
             <div class="standard-post-format">
                 <div class="row">
-
                     {{#each posts}}
                         {{#if @last}}
                     <div class="col-md-12">
@@ -66,6 +65,13 @@
                 <div class="button-sec">
                     <button class="btn load-more">load more</button>
                 </div>
+                <nav aria-label="Page navigation example" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        {{#paginate current=current pages=pages}}
+
+                        {{/paginate}}
+                    </ul>
+                </nav>
             </div>
 
             <!-- Aside section start -->
@@ -86,6 +92,7 @@
                 <a href="https://instawidget.net/v/user/emonmyplate" id="link-f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122">@emonmyplate</a>
                 <script src="https://instawidget.net/js/instawidget.js?u=f2817c83148136b9664b083d0c186732613e578614b3d2610cc8e3b0e864b122&width=300px"></script>
             </aside>
+
         </div>
     </section>
 

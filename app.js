@@ -23,12 +23,13 @@ mongoose.connect(mongoDBUrl).then(db=>{
 
 
 //Config server to use handlebars
-const {select, formatDate} =require('./helpers/handlebars-helpers');
+const {select, formatDate, paginate} =require('./helpers/handlebars-helpers');
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', exphbs({
     defaultLayout: 'home',
     helpers: {select: select,
-              formatDate: formatDate
+              formatDate: formatDate,
+              paginate: paginate
     }
 }));
 app.set('view engine', 'handlebars');
